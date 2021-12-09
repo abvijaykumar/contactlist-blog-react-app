@@ -17,5 +17,4 @@ export NVM_DIR="$HOME/.nvm"
 npm install
 
 #start our node app in the background
-export PORT=80
 sudo npm start 2>&1 /home/ec2-user/contacts-app/node-$$.log &
