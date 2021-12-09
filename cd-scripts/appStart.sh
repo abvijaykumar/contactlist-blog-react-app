@@ -19,4 +19,4 @@ npm install
 echo "----Starting the Server---"
 echo $PATH
 # sudo npm start &
-sudo pm2 start npm -- start
+pm2 start npm -- start
