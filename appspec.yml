@@ -1,0 +1,14 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/contacts-app
+hooks:
+  BeforeInstall:
+    - location: cd-scripts/setup.sh
+      timeout: 300
+      runas: ec2-user
+  ApplicationStart:
+    - location: cd-scripts/appStart.sh
+      timeout: 300
+      runas: ec2-user 
