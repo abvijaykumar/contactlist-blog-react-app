@@ -15,6 +15,8 @@ export NVM_DIR="$HOME/.nvm"
 
 #install node modules
 npm install
+npm install pm2 -g
 
 #start our node app in the background
-sudo npm start &
+# sudo npm start &
+sudo pm2 start npm -- start
