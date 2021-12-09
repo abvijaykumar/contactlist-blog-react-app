@@ -18,4 +18,4 @@ npm install
 
 #start our node app in the background
 export PORT=80
-sudo npm start &
+sudo npm start 2>&1 node.log &
