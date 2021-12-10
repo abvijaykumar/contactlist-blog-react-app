@@ -20,6 +20,9 @@ npm install
 echo "----Starting the Server---"
 echo $PATH
 # sudo npm start &
+export NODE_OPTIONS=--openssl-legacy-provider
 npm run build 
-pm2 serve build 8082 --spa
+pm2 stop contactlist-app
+pm2 serve build/ 8082 --name "contactlist-app" --spa
+
 #pm2 start npm -- start
