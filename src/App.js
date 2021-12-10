@@ -1,14 +1,16 @@
 
 import React, { useEffect, useState } from 'react';
 
-const AWS = require('aws-sdk');
-AWS.config.region = 'us-east-1';
 
-var table_name = "contacts-table" 
-
-const docClient = new AWS.DynamoDB.DocumentClient();
 
 function App() {
+  
+  const AWS = require('aws-sdk');
+  AWS.config.region = 'us-east-1';
+  var table_name = "contacts-table" 
+ 
+  const docClient = new AWS.DynamoDB.DocumentClient();
+
   const [contacts, setContacts] = useState([{ ContactName: "", ContactNumber: "" }]);
   const [, forceUpdate] = useState();
   
