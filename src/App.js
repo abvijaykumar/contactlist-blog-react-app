@@ -6,7 +6,9 @@ import React, { useEffect, useState } from 'react';
 function App() {
   
   const AWS = require('aws-sdk');
-  AWS.config.region = 'us-east-1';
+  
+  AWS.config.update({region: "us-east-1"});
+
   var table_name = "contacts-table" 
  
   const docClient = new AWS.DynamoDB.DocumentClient();
