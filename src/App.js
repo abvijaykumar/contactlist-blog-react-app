@@ -2,6 +2,12 @@
 import React, { useEffect, useState } from 'react';
 
 const AWS = require('aws-sdk');
+AWS.config.getCredentials(function(err) {
+  if (err) console.log(err.stack);
+  else {
+    console.log("Access key:", AWS.config.credentials.accessKeyId);
+  }
+});
 
 var table_name = "contacts-table" 
 
