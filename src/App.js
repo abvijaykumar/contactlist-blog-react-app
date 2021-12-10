@@ -12,14 +12,15 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 function App() {
   const [contacts, setContacts] = useState([{ ContactName: "", ContactNumber: "" }]);
   const [, forceUpdate] = useState();
-
+  
   var params = {
     TableName:table_name,
   }
   useEffect(() => {
       docClient.scan(params,(err, data) => {
         if (err) {
-            return {err}
+          console.log("Error scanning dynamoddb " +  JSON.stringify(err, null, 2));
+          return {err}
         } else {
           console.log("Got value from DynamoDB");
           setContacts(data.Items)
