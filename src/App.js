@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from 'react';
 
 const AWS = require('aws-sdk');
-AWS.config.update({region: "us-east-1"});
-
 
 var table_name = "contacts-table" 
 
