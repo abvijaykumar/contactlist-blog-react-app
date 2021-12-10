@@ -10,7 +10,8 @@ export NVM_DIR="$HOME/.nvm"
 
 
 echo "Installing pm2"
-npm install pm2 -g
+sudo npm install -g pm2
+sudo npm install -g serve
 
 echo "Installing other packages"
 npm install
@@ -19,4 +20,6 @@ npm install
 echo "----Starting the Server---"
 echo $PATH
 # sudo npm start &
-pm2 start npm -- start
+npm run build 
+pm2 serve build 8082 --spa
+#pm2 start npm -- start
