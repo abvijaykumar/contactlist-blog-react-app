@@ -1,12 +1,33 @@
 
 import React, { useEffect, useState } from 'react';
-const AWS = require('aws-sdk');
 
-/*AWS.config.update({region: "us-east-1"});*/
+import {fromInstanceMetadata} from "@aws-sdk/credential-provider-imds";
+
+const { DynamoDBClient, ScanCommand } = require("@aws-sdk/client-dynamodb");
+
+//const {fromIni} = require("@aws-sdk/credential-provider-ini");
+
+//AWS.config.credentials = new AWS.EC2MetadtaCredentials();
+//AWS.config.update({region: "us-east-1"});
 var table_name = "contacts-table" ;
 
 function App() {
-  const docClient = new AWS.DynamoDB.DocumentClient();
+  //const configDynamoDB = {
+    //version: 'latest',
+    //region: "us-east-1",
+    //role_arn: "arn:aws:iam::141129659891:role/pulumi-blog-ec2-role-a797dd0",
+    //credential_source: "Ec2InstanceMetadata"
+    /*credentials: 
+    {
+        accessKeyId: "AKIASBW73WXZ4RRQGDW5", 
+        secretAccessKey: "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"
+    } */
+  //};
+
+  const cred = fromInstanceMetadata({timeout: 1000, maxRetries: 0});
+  console.log(cred);
+
+  const docClient = new DynamoDBClient({region: "us-east-1", credentials: cred});
 
   const [contacts, setContacts] = useState([{ ContactName: "", ContactNumber: "" }]);
   const [, forceUpdate] = useState();
@@ -15,6 +36,31 @@ function App() {
     TableName:table_name,
   }
   useEffect(() => {
+    docClient.send(new ScanCommand(params)).then(
+        (data) => {
+          // process data.
+          //setContacts(JSON.stringify(data.Items))
+          console.log(data.Items)
+          console.log(JSON.stringify( data.Items, null, 2))
+          var newcontacts = [];
+          data.Items.map((item) => {
+            const name = item.ContactName.S;
+            const number = item.ContactNumber.S;
+            newcontacts.push({"ContactName": name, "ContactNumber":number});
+            console.log(newcontacts);
+            setContacts(newcontacts);
+          })
+
+        },
+        (error) => {
+          // error handling.
+          console.log("Error scanning dynamoddb " +  JSON.stringify(error, null, 2));
+          console.log(error);
+          return {error}
+        }
+      );
+      
+        /*
       docClient.scan(params,(err, data) => {
         if (err) {
           console.log("Error scanning dynamoddb " +  JSON.stringify(err, null, 2));
@@ -23,7 +69,7 @@ function App() {
           console.log("Got value from DynamoDB");
           setContacts(data.Items)
         }
-      });
+      });*/
     }, []);
 
 
@@ -39,7 +85,7 @@ function App() {
             "ContactNumber": contactNumber,
         }
     };
-    
+    /*
     docClient.put(params, function(err, data) {
         if (err) {
             console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
@@ -47,7 +93,7 @@ function App() {
             console.log("Added item:", JSON.stringify(data, null, 2));
             forceUpdate();
         }
-    });
+    });*/
     return;
   };
   

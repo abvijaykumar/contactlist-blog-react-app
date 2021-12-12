@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "aws-sdk": "^2.1033.0",
+    "@aws-sdk/client-dynamodb": "^3.44.0",
+    "@aws-sdk/credential-provider-imds": "^3.40.0",
+    "@aws-sdk/credential-providers": "^3.43.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
